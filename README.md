@@ -36,7 +36,41 @@ Microservices align well with modern development teams that follow DevOps and Ag
 
 - Set up your Iam Users and attach policies that would give eks enough priviledge
 
+##### below policies
+AmazonEC2FullAccess
+
+AmazonEKS_CNI_Policy
+
+AmazonEKSClusterPolicy	
+
+AmazonEKSWorkerNodePolicy
+
+AWSCloudFormationFullAccess
+
+IAMFullAccess
+
+#### One more policy we need to create with content as below
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "eks:*",
+            "Resource": "*"
+        }
+    ]
+}
+```
+Attach this policy to your user as well
+
+![Policies To Attach](https://github.com/jaiswaladi246/Microservice/blob/Infra-Steps/Policies.png)
+
+
 ## Install The Cli's
+
+
 
 
 
