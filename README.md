@@ -293,17 +293,85 @@ pipeline {
 ![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/792514d5-634e-47e7-9528-15edec307402)
 
 
+## CD IMPLEMENTATION
 
+- Firstly create a name space webapps and create a service.yml file also apply it
 
+```sh
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins
+  namespace: webapps
+```
 
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/008142fd-0cef-454f-b120-a1fbf0db394d)
 
 
+- create the role.yml file and apply, with content below this gives the cluster policies which it needs to perform optimally
 
+```sh
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-role
+  namespace: webapps
+rules:
+  - apiGroups:
+        - ""
+        - apps
+        - autoscaling
+        - batch
+        - extensions
+        - policy
+        - rbac.authorization.k8s.io
+    resources:
+      - pods
+      - componentstatuses
+      - configmaps
+      - daemonsets
+      - deployments
+      - events
+      - endpoints
+      - horizontalpodautoscalers
+      - ingress
+      - jobs
+      - limitranges
+      - namespaces
+      - nodes
+      - pods
+      - persistentvolumes
+      - persistentvolumeclaims
+      - resourcequotas
+      - replicasets
+      - replicationcontrollers
+      - serviceaccounts
+      - services
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+```
 
+- create a bind.yml file with the following content below and apply, this binds the role to any pod in the cluster within the namespace webapps
 
+```sh
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-rolebinding
+  namespace: webapps 
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-role 
+subjects:
+- namespace: webapps 
+  kind: ServiceAccount
+  name: jenkins
+```
 
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/ebb29fcc-0f82-4336-9002-f163a9d2652e)
 
 
+- create a sec.yml file and apply
 
 
 
@@ -366,7 +434,34 @@ pipeline {
 
 
 
-* Create Servcie account/ROLE/BIND-ROLE/Token
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
