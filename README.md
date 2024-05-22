@@ -371,7 +371,163 @@ subjects:
 ![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/ebb29fcc-0f82-4336-9002-f163a9d2652e)
 
 
-- create a sec.yml file and apply
+- create a sec.yml file and apply, so because the namespace is not added in this script make sure to add the namespace when applying "-n webapps"
+
+```sh
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: mysecretname
+  annotations:
+    kubernetes.io/service-account.name: jenkins
+```
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/c550d248-eaee-4234-90c8-c793d455175c)
+
+
+
+- we need a token which we would use in jenkins, so copy the command and paste to get the token
+
+```sh
+kubectl describe secret mysecretname -n webapps
+```
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/a56ebb83-8071-4cb5-a566-f56060b07384)
+
+
+copy the token and save somewhere temporary.
+
+- so we are gonna create a new pipeline and name it dummy because we just need it for the scripts for deployment.
+
+  first paste this template in the box for our deployment script, which we would still adjust.
+
+```sh
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy To Kubernetes') {
+            steps {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://DE9F5ED083254CB023E40A569AB04D1F.gr7.us-east-1.eks.amazonaws.com']]) {
+                    sh "kubectl apply -f deployment-service.yml"
+                    
+                }
+            }
+        }
+        
+        stage('verify Deployment') {
+            steps {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://DE9F5ED083254CB023E40A569AB04D1F.gr7.us-east-1.eks.amazonaws.com']]) {
+                    sh "kubectl get svc -n webapps"
+                }
+            }
+        }
+    }
+}
+```
+
+- when you have this pasted, go down and select pipeline syntax and search for < with kubecredential ,,,, multiple credentials, select.
+
+- then select secret text , and add the token copied earlier to the password box.
+
+-  ID and description can be both "k8-token"
+
+-  see image below
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/6d98f484-11da-4552-a4de-e06e70166cd3)
+
+
+- under credentials to use select the just created token "k8-token"
+
+- for kubernetes api, go to your aws console search for eks and under overview you can see url similar to the image below.
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/840c30d3-7eeb-4532-900c-a3aab89a9b72)
+
+
+- clustername and webapps should be filled correctly
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/96ebc302-1eb0-48d9-b817-1b6b27520194)
+
+
+- generate pipeline syntax and add it correctly to the script
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/af42d8d0-2844-45b7-bac6-f5fbf32c33b6)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/41c3dd90-f83e-49c3-beab-ccb9a71b4fe2)
+
+
+
+- now copy the updated script and paste in the jenkinsfile in the main branch to trigger a build to deploy
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/760956e6-3a30-43e7-952e-3dbafab5132b)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/ed689c7b-9a5b-4dc0-80f1-c3f8c79c6449)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/9f5f0564-551d-455e-b024-f84f6aef152f)
+
+
+- copy the url provided to us by the loadbalancer to access the E-commerce application
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/84b29d49-cf5b-40bc-bcda-f9eea7d10285)
+
+
+
+- paste on chrome or any webbrowser of your choice
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/44495084-6ae7-427f-a0fd-e0c09f3db1ce)
+
+
+- now to delete the cluster using eksctl simply do this
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/27b1b190-811d-4e1f-8b07-eec27fc61382)
+
+
+##### THE End ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
