@@ -208,6 +208,113 @@ you can find the jenkinsfile in each of the branches in this repository, just ed
 Example:
 
 ```sh
+pipeline {
+    agent any
+
+    stages {
+        stage('Build & Tag Docker Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                        sh "docker build -t uzondu/adservice:latest ."
+                    }
+                }
+            }
+        }
+        
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                        sh "docker push uzondu/adservice:latest "
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### Branches
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/c89c6ffc-5b67-442e-9099-4b3f3bb8291b)
+
+
+- Create a new item and and name it " MICROSERVICE E-COMMERCE "
+
+- select multi-branch pipeline and create
+
+#### Branch Source
+
+- put in your git url
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/0007480c-9cbf-4b5b-aa5e-da6c5b9c8ed6)
+
+
+#### Build Configuration
+
+- Script path "Jenkinsfile"
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/834bafc8-0393-4659-8f86-79a14c53895e)
+
+
+
+#### Scan Multi Branch Pipeline Triggers
+
+- scan webhook
+
+- put in name of choice
+
+- tap on the "?"
+
+- copy url and edit to have the jenkins url and the name chosen earlier
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/724dc38a-dd71-4aff-aa7e-8dc4a0ee9fc8)
+
+
+- now go to your github repo settings and select webhook add the edited url gotten from jenkins and add webhook
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/662db6df-364b-4e28-92ab-4b71df87e9f0)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/01280f43-c1f9-4d8a-9b9e-218c7bef1aa1)
+
+
+#### Pipeline Should Be built Successfully
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/1a2d2b3a-031e-46ca-a200-25495253ba02)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/792514d5-634e-47e7-9528-15edec307402)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
