@@ -70,6 +70,197 @@ Attach this policy to your user as well
 
 ## Install The Cli's
 
+# AWSCLI
+
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo apt install unzip
+unzip awscliv2.zip
+sudo ./aws/install
+aws configure
+```
+
+## KUBECTL
+
+```bash
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin
+kubectl version --short --client
+```
+
+## EKSCTL
+
+```bash
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+```
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/f65d6166-7e54-446d-b54a-9f84d5bb76be)
+
+
+## Create EKS CLUSTER
+
+```bash
+eksctl create cluster --name=EKS-1 \
+                      --region=us-east-1 \
+                      --zones=us-east-1a,us-east-1b \
+                      --without-nodegroup
+
+eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster EKS-1 \
+    --approve
+
+eksctl create nodegroup --cluster=EKS-1 \
+                       --region=us-east-1 \
+                       --name=node2 \
+                       --node-type=t3.medium \
+                       --nodes=3 \
+                       --nodes-min=2 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=devops \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access
+```
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/cba29172-1355-42a2-b105-d606524ce8b5)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/90f1760c-b8f0-47ca-aead-489fd19e0c76)
+
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/73b2f38d-a6da-4320-8897-7f5e1077a128)
+
+
+
+
+#### Setup Jenkins
+
+
+```sh
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins -y
+```
+
+- Install Java [openjdk -17 headless]
+- Install docker and run the command bellow for docker
+
+```sh
+sudo chmod 666 /var/run/docker.sock
+```
+
+- Paste the jenkins server IP on your browser and login
+
+
+## Installation Of Plugins For CI/CD
+
+>>>>  /manage jenkins/plugins/available plugins.
+
+##### Install the following:
+
+- Docker
+
+- Docker Pipeline
+
+- Kubernetes / Kubernetes Cli
+
+- Multi branch scan webhook trigger
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/966e1979-d005-48c5-919a-7c074e40660f)
+
+
+
+- / manage jenkins / tools / docker
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/58553b62-75e4-46e0-a640-2c5c727f97c6)
+
+
+- / manage jenkins / credentials / global
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/a6d9e00f-4522-43b2-8eab-68cb51ad496d)
+
+
+![](https://github.com/UzonduEgbombah/Microservice/assets/137091610/fb31b0f7-63b1-4cf7-913c-12bc39b80c2b)
+
+
+#### Edit Your Micro-Service JenkinsFile To Match Your Dockerhub Repo
+
+you can find the jenkinsfile in each of the branches in this repository, just edit the dockerhub name into jenkins script
+Example:
+
+```sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Create Servcie account/ROLE/BIND-ROLE/Token
+
 
 
 
