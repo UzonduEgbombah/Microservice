@@ -1,4 +1,4 @@
-## 11 MICROSERVICE CICD PIPELINE PROJECT ULTIMATE DEVOPS PIPELINE
+## 11 MICROSERVICE CICD PIPELINE PROJECT (ULTIMATE DEVOPS PIPELINE)
 
 #### Microservices architecture has gained popularity in software development for several reasons. Here are a few key advantages:
 
