@@ -15,8 +15,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push uzondu/loadgenerator:latest"
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+                        sh "docker push willywan/loadgenerator:latest"
                     }
                 }
             }
